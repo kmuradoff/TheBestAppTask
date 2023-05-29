@@ -6,18 +6,21 @@
     app:startDestination="@id/movieListFragment">
 
     <fragment
-        android:id="@+id/splashScreen"
-        android:name="com.muradoff.thebestapptask.fragment.SplashScreen"
-        android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" >
-        <action
-            android:id="@+id/action_splashScreen_to_movieListFragment"
-            app:destination="@id/movieListFragment"
-            app:launchSingleTop="false" />
-    </fragment>
-    <fragment
         android:id="@+id/movieListFragment"
         android:name="com.muradoff.thebestapptask.fragment.MovieListFragment"
         android:label="fragment_movie_list"
-        tools:layout="@layout/fragment_movie_list" />
+        tools:layout="@layout/fragment_movie_list" >
+        <action
+            android:id="@+id/action_movieListFragment_to_favoriteMoviesFragment"
+            app:destination="@id/favoriteMoviesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteMoviesFragment"
+        android:name="com.muradoff.thebestapptask.fragment.FavoriteMoviesFragment"
+        android:label="fragment_favorite_movies"
+        tools:layout="@layout/fragment_favorite_movies" >
+        <action
+            android:id="@+id/action_favoriteMoviesFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+    </fragment>
 </navigation>
