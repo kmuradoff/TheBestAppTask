@@ -28,4 +28,10 @@ interface MovieDao {
     @Query("DELETE FROM favorite_movies WHERE movieId = :id")
     fun deleteFavoriteMovieById(id: String?)
 
+    @Query("DELETE FROM favorite_movies")
+    fun deleteAllFavoriteMovies()
+
+    @Query("SELECT * FROM favorite_movies WHERE title LIKE :title")
+    fun searchByTitle(title: String?): List<FavoriteMovie?>?
+
 }

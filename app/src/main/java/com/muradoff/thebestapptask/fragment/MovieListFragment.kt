@@ -2,12 +2,14 @@ package com.muradoff.thebestapptask.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,7 @@ import com.muradoff.thebestapptask.entity.FavoriteMovie
 import com.muradoff.thebestapptask.model.MostPopularMovies
 import com.muradoff.thebestapptask.model.MostPopularMoviesResponse
 import com.muradoff.thebestapptask.model.Movie
+import com.muradoff.thebestapptask.model.MovieDetails
 import com.muradoff.thebestapptask.model.MovieSearch
 import com.muradoff.thebestapptask.model.MovieSearchResponse
 import com.muradoff.thebestapptask.rest.ApiService
@@ -32,7 +35,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class MovieListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var mApiService: ApiService? = null
@@ -42,18 +44,19 @@ class MovieListFragment : Fragment() {
     private var searchMovies: MutableList<MovieSearch> = ArrayList()
     private var progressBar: ProgressBar? = null
     private var favButton: Button? = null
-
+    private var movieDetailsFragment: MovieDetailsFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        var inflater = inflater.inflate(R.layout.fragment_movie_list, container, false)
+        val inflater = inflater.inflate(R.layout.fragment_movie_list, container, false)
 
         recyclerView = inflater.findViewById(R.id.recyclerView)
+
         searchEditText = inflater.findViewById(R.id.titleSearchText)
         progressBar = inflater.findViewById(R.id.progressBar)
         favButton = inflater.findViewById(R.id.favButton)
-
+        
         checkFavoriteMoviesIfExist()
 
         searchEditText.setOnEditorActionListener { v, actionId, event ->
@@ -70,7 +73,10 @@ class MovieListFragment : Fragment() {
             view.findNavController().navigate(R.id.action_movieListFragment_to_favoriteMoviesFragment)
         }
 
-            return inflater
+
+
+
+        return inflater
     }
 
     private fun onFavoriteClicked(movie: Movie) {
@@ -96,16 +102,15 @@ class MovieListFragment : Fragment() {
         val call = mApiService!!.searchMovies(title)
         call.enqueue(object : Callback<MovieSearchResponse> {
             @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(
-                call: Call<MovieSearchResponse>, response: Response<MovieSearchResponse>
-            ) {
+            override fun onResponse(call: Call<MovieSearchResponse>, response: Response<MovieSearchResponse>)
+            {
                 searchMovies.addAll(response.body()!!.results)
                 progressBar?.visibility = View.GONE
                 mAdapter?.notifyDataSetChanged()
             }
 
             override fun onFailure(call: Call<MovieSearchResponse>, t: Throwable) {
-                println("bad")
+                Log.d("TAG", "onFailure: " + t.message)
             }
 
         })
@@ -113,7 +118,15 @@ class MovieListFragment : Fragment() {
 
     private fun fetchPopularMovies() {
         progressBar?.visibility = View.VISIBLE
-        mAdapter = MostPopularMoviesAdapter(popularMovies) { movie -> onFavoriteClicked(movie) }
+        mAdapter = MostPopularMoviesAdapter(popularMovies, ::onFavoriteClicked, object : MostPopularMoviesAdapter.OnItemClickListener {
+            override fun onItemClick(movie: MostPopularMovies) {
+                Log.d("TAG", movieDetailsFragment?.setMovieDetails(movie.id).toString())
+                Log.d("TAG", movie.id)
+                movieDetailsFragment?.setMovieDetails(movie.id).toString()
+                view?.findNavController()?.navigate(R.id.action_movieListFragment_to_movieDetails)
+
+            }
+        })
         recyclerView.adapter = mAdapter
         mApiService = RestClient.client.create(ApiService::class.java)
         val call = mApiService!!.fetchMostPopularMovies()
@@ -128,9 +141,8 @@ class MovieListFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<MostPopularMoviesResponse>, t: Throwable) {
-                println("bad")
+                Log.d("TAG", "onFailure: " + t.message)
             }
-
         })
     }
 
@@ -161,6 +173,9 @@ class MovieListFragment : Fragment() {
         movieDb.movieDao()?.deleteFavoriteMovie(favoriteMovie)
     }
 
+    private fun openMovieDetails() {
+
+    }
 
 }
 

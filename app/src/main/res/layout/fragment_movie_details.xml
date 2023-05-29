@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.MovieDetailsFragment" >
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imagePreviewImageView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/movieTitleTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Title"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/imagePreviewImageView"
+                app:layout_constraintStart_toStartOf="@+id/imagePreviewImageView"
+                app:layout_constraintTop_toBottomOf="@+id/imagePreviewImageView" />
+
+            <TextView
+                android:id="@+id/moviePlotTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Plot"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/movieTitleTextView"
+                app:layout_constraintStart_toStartOf="@+id/movieTitleTextView"
+                app:layout_constraintTop_toBottomOf="@+id/movieTitleTextView" />
+
+            <TextView
+                android:id="@+id/ratingImdbTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Rating IMDB"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/moviePlotTextView"
+                app:layout_constraintStart_toStartOf="@+id/moviePlotTextView"
+                app:layout_constraintTop_toBottomOf="@+id/moviePlotTextView" />
+
+            <TextView
+                android:id="@+id/releaseDateTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Release Date"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/ratingImdbTextView"
+                app:layout_constraintStart_toStartOf="@+id/ratingImdbTextView"
+                app:layout_constraintTop_toBottomOf="@+id/ratingImdbTextView" />
+
+            <Button
+                android:id="@+id/addToFavoritesButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Add to favorites"
+                app:layout_constraintEnd_toEndOf="@+id/releaseDateTextView"
+                app:layout_constraintStart_toStartOf="@+id/releaseDateTextView"
+                app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addToFavoritesButton" />
+
+            <Button
+                android:id="@+id/youtubeTrailerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:text="Youtube Trailer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/recyclerView2"
+                app:layout_constraintStart_toStartOf="@+id/recyclerView2"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

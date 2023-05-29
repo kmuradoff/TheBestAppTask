@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ class FavoriteMoviesFragment : Fragment() {
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var favMovies: MutableList<Movie> = ArrayList()
     private var backButton: Button? = null
+    private var clearButton: Button? = null
     private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
@@ -40,21 +42,23 @@ class FavoriteMoviesFragment : Fragment() {
         recyclerView = inflater.findViewById(R.id.recyclerView)
         progressBar = inflater.findViewById(R.id.favoriteProgressBar)
         backButton = inflater.findViewById(R.id.backButton)
+        clearButton = inflater.findViewById(R.id.clearFavoritesButton)
 
-
-
-        val layoutManager = LinearLayoutManager(activity)
-        recyclerView.layoutManager = layoutManager
-
-        GlobalScope.launch(Dispatchers.Main) {
-
-            fetchFavoriteMovies()
+        clearButton?.setOnClickListener {view ->
+            view.findNavController().navigate(R.id.action_favoriteMoviesFragment_to_movieListFragment)
+            Toast.makeText(activity, "All favorite movies deleted", Toast.LENGTH_SHORT).show()
+            deleteAllFavoriteMovies()
         }
 
         backButton?.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_favoriteMoviesFragment_to_movieListFragment)
         }
 
+        val layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = layoutManager
+        GlobalScope.launch(Dispatchers.Main) {
+            fetchFavoriteMovies()
+        }
         return inflater
     }
 
@@ -77,5 +81,13 @@ class FavoriteMoviesFragment : Fragment() {
         return withContext(Dispatchers.IO) {
             movieDb.movieDao()?.getAllFavoriteMovies()
         }
+    }
+
+    private fun deleteAllFavoriteMovies() {
+        val movieDb: MovieDatabase = MovieDatabase.getDatabase(this.context)
+        GlobalScope.launch {
+            movieDb.movieDao()?.deleteAllFavoriteMovies()
+        }
+        mAdapter!!.notifyDataSetChanged()
     }
 }

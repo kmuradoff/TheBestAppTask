@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_movieListFragment_to_favoriteMoviesFragment"
             app:destination="@id/favoriteMoviesFragment" />
+        <action
+            android:id="@+id/action_movieListFragment_to_movieDetails"
+            app:destination="@id/movieDetails" />
     </fragment>
     <fragment
         android:id="@+id/favoriteMoviesFragment"
@@ -22,5 +25,13 @@
         <action
             android:id="@+id/action_favoriteMoviesFragment_to_movieListFragment"
             app:destination="@id/movieListFragment" />
+        <action
+            android:id="@+id/action_favoriteMoviesFragment_to_movieDetails"
+            app:destination="@id/movieDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/movieDetails"
+        android:name="com.muradoff.thebestapptask.fragment.MovieDetailsFragment"
+        android:label="fragment_movie_details"
+        tools:layout="@layout/fragment_movie_details" />
 </navigation>

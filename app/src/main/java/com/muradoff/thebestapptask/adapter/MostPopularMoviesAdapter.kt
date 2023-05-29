@@ -14,8 +14,13 @@ import com.muradoff.thebestapptask.model.MostPopularMovies
 
 class MostPopularMoviesAdapter(
     var movies: List<MostPopularMovies>,
-    private val onFavoriteClicked: (MostPopularMovies) -> Unit
+    private val onFavoriteClicked: (MostPopularMovies) -> Unit,
+    private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<MostPopularMoviesAdapter.MovieViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(movie: MostPopularMovies)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
@@ -36,6 +41,17 @@ class MostPopularMoviesAdapter(
         private val ratingTextView: TextView = itemView.findViewById(R.id.imdbRating)
         private val favoriteButton: Button = itemView.findViewById(R.id.favorite)
         private val previewImageView: ImageView = itemView.findViewById(R.id.preview)
+
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val movie = movies[position]
+                    onItemClickListener.onItemClick(movie)
+                }
+            }
+        }
 
         fun bind(mostPopularMovies: MostPopularMovies) {
             titleTextView.text = mostPopularMovies.title

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.FavoriteMoviesFragment">
+    tools:context=".fragment.FavoriteMoviesFragment"
+    android:background="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -28,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:padding="0dp"
         android:id="@+id/backButton"
         android:background="#ff0000"
         android:text="back"
@@ -39,5 +41,19 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/clearFavoritesButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="8dp"
+        android:text="clear"
+        android:padding="0dp"
+        android:background="#ff0000"
+        android:textSize="12sp"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+        app:layout_constraintEnd_toStartOf="@+id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
